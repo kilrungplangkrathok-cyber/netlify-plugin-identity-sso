@@ -1,16 +1,41 @@
-##############################
-# Netlify configuration file #
-##############################
+[functions]
+"*" = { }
 
-# List of Build plugins
 [[plugins]]
-# Use the current plugin in builds for testing and debugging.
-# Local path to the plugin.
 package = "."
-  # Plugin configuration
-  #  [plugins.inputs]
-  #  foo = "bar"
+origin = "config"
+inputs = { }
 
 [build]
-# Dummy build command
+environment = { }
+publish = "/workspaces/netlify-plugin-identity-sso"
+publishOrigin = "default"
+services = { }
 command = "echo onBuild"
+commandOrigin = "config"
+
+  [build.processing]
+  css = { }
+  html = { }
+  images = { }
+  js = { }
+
+[[redirects]]
+from = "/*"
+to = "/:splat"
+status = 404
+
+  [redirects.conditions]
+  Role = [ "netlify" ]
+
+[[redirects]]
+from = "/"
+to = "/_netlify-sso"
+status = 401
+force = true
+
+[[redirects]]
+from = "/*"
+to = "/"
+status = 302
+force = true
